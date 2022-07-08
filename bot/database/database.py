@@ -8,11 +8,11 @@ from bot.config import Config
 class Singleton(type):
     __instances__ = {}
 
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls.__instances__:
-            cls.__instances__[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+    def __call__(self, *args, **kwargs):
+        if self not in self.__instances__:
+            self.__instances__[self] = super(Singleton, self).__call__(*args, **kwargs)
 
-        return cls.__instances__[cls]
+        return self.__instances__[self]
 
 
 class Database(metaclass=Singleton):
@@ -58,7 +58,7 @@ class Database(metaclass=Singleton):
 
     async def is_user_exist(self, id):
         user = await self.get_user(id)
-        return True if user else False
+        return bool(user)
 
     async def total_users_count(self):
         count = await self.col.count_documents({})
@@ -177,12 +177,10 @@ class Database(metaclass=Singleton):
         return user.get("ban_status", default)
 
     async def get_all_banned_users(self):
-        banned_users = self.col.find({"ban_status.is_banned": True})
-        return banned_users
+        return self.col.find({"ban_status.is_banned": True})
 
     async def get_all_users(self):
-        all_users = self.col.find({})
-        return all_users
+        return self.col.find({})
 
     async def delete_user(self, user_id):
         user_id = int(user_id)

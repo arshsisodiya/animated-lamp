@@ -147,8 +147,7 @@ class Utilities:
         out = out.decode().strip()
         if not out:
             return err.decode()
-        duration = round(float(out))
-        if duration:
+        if duration := round(float(out)):
             return duration
         return "No duration!"
 
@@ -189,7 +188,7 @@ class Utilities:
     @staticmethod
     def get_watermark_coordinates(pos, width, height):
         def gcd(m, n):
-            return m if not n else gcd(n, m % n)
+            return gcd(n, m % n) if n else m
 
         def ratio(x, y):
             d = gcd(x, y)
@@ -296,7 +295,12 @@ class Utilities:
                 i_keyboard = []
             if i == 10:
                 btns.append(i_keyboard)
-        btns.append([InlineKeyboardButton("Manual Screenshots!", "mscht")])
-        btns.append([InlineKeyboardButton("Trim Video!", "trim")])
-        btns.append([InlineKeyboardButton("Get Media Information", "mi")])
+        btns.extend(
+            (
+                [InlineKeyboardButton("Manual Screenshots!", "mscht")],
+                [InlineKeyboardButton("Trim Video!", "trim")],
+                [InlineKeyboardButton("Get Media Information", "mi")],
+            )
+        )
+
         return btns
