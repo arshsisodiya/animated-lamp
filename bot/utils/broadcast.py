@@ -91,8 +91,9 @@ class Broadcast:
         update_text = (
             f"#broadcast completed in `{completed_in}`\n\nTotal users {total_users}.\n"
             f"Total done {done}, {success} success and {failed} failed.\n"
-            "Status: {}".format("Completed" if not self.cancelled else "Cancelled")
+            "Status: {}".format("Cancelled" if self.cancelled else "Completed")
         )
+
 
         if failed == 0:
             await self.client.send_message(
